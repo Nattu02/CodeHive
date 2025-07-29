@@ -1,0 +1,23 @@
+{
+  "name": "devtinder",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Nattu02/Devtinder#readme",
+  "bugs": {
+    "url": "https://github.com/Nattu02/Devtinder/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nattu02/Devtinder.git"
+  },
+  "license": "ISC",
+  "author": "Nattudurai",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
