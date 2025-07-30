@@ -1,37 +1,26 @@
 const express = require("express");
 const app = express();
 
-app.use("/hello", (req, res) => {
-  res.send("Hello hello hello...");
+const { auth } = require("./middlewares/auth");
+
+// app.use("/admin", (req, res, next) => {
+//   const token = "xyz";
+//   const isTokenValid = token === "xyz";
+//   console.log("Admin authorized");
+
+//   if (isTokenValid) res.send("admin authorized successfully");
+//   // next();
+//   else res.status(401).send("Authorization error");
+// });
+
+app.use("/admin", auth);
+
+app.post("/admin/getUserData", (req, res) => {
+  res.send("User data fetched successfully");
 });
 
-app.use("/test2/2", (req, res) => {
-  res.send("this is test2 route");
-});
-
-app.use("/test", (req, res) => {
-  res.send("this is test route");
-});
-
-app.get("/user", (req, res) => {
-  res.send({
-    fname: "Nattudurai",
-    lname: "C",
-  });
-});
-
-app.post("/user", (req, res) => {
-  res.send("User data created successfully");
-});
-app.put("/user", (req, res) => {
-  res.send("User data updated successfully");
-});
-app.delete("/user", (req, res) => {
+app.use("/admin/deleteUserData", (req, res) => {
   res.send("User data deleted successfully");
-});
-
-app.use("/", (req, res) => {
-  res.send("reponse sent from home page...");
 });
 
 app.listen(7777, () => {
