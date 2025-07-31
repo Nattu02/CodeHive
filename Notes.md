@@ -66,4 +66,11 @@
 - To convert the datastreams to JSON, there is a middleware in express. That is express.json().
 - The middleware should be used at the start of the program, so that it can be used by all the route handlers in the app. **app.use(express.json())**
 - After converting the data from request into JSON, a new instance can be created by using const user = new user(req.body);
+- Any DB operations return a promise. So, they should be handled with async await, and wrapped inside try catch blocks. 
+
+
+## Fetch, update, and deletion of data
+
+- There is a lot of mehtods inside models. To find all data, find by filters, update data based on filters, replace, delete, ..... etc. 
+- The conditions can be passed by request body, and can be used as filter. 
 
