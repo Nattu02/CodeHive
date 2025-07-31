@@ -1,28 +1,32 @@
 const express = require("express");
 const app = express();
 
-const { auth } = require("./middlewares/auth");
+const connectDB = require("./Config/database");
+const User = require("./models/user");
 
-// app.use("/admin", (req, res, next) => {
-//   const token = "xyz";
-//   const isTokenValid = token === "xyz";
-//   console.log("Admin authorized");
+app.use(express.json());
 
-//   if (isTokenValid) res.send("admin authorized successfully");
-//   // next();
-//   else res.status(401).send("Authorization error");
-// });
+app.post("/signup", async (req, res) => {
+  console.log(req.body);
 
-app.use("/admin", auth);
+  const user = new User(req.body);
 
-app.post("/admin/getUserData", (req, res) => {
-  res.send("User data fetched successfully");
+  try {
+    await user.save();
+    console.log("user created successfully");
+    res.send("User created successfully");
+  } catch (err) {
+    res.send("Error in creating new user: " + err.message);
+  }
 });
 
-app.use("/admin/deleteUserData", (req, res) => {
-  res.send("User data deleted successfully");
-});
-
-app.listen(7777, () => {
-  console.log("Server created successfully at port 7777");
-});
+connectDB()
+  .then(() => {
+    console.log("Database connected successfully...");
+    app.listen(7777, () => {
+      console.log("Server created successfully at port 7777");
+    });
+  })
+  .catch((error) => {
+    console.log("Database connection failed..." + error.message);
+  });
