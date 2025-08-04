@@ -4,6 +4,8 @@ const app = express();
 const connectDB = require("./Config/database");
 const User = require("./models/user");
 
+const validator = require("validator");
+
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
@@ -56,18 +58,33 @@ app.put("/replace", async (req, res) => {
   }
 });
 
-app.patch("/update", async (req, res) => {
-  const filtermail = req.body[0];
-  const newAge = req.body[1];
-
+app.patch("/update/:userId", async (req, res) => {
   try {
-    await User.updateOne(filtermail, newAge);
+    const userId = req.params?.userId;
+    const data = req.body;
+
+    const ALLOWED_FIELDS = ["age", "skills", "gender", "profile", "emailId"];
+    if (data?.skills?.length > 5)
+      throw new Error("Skills cannot be more than 5");
+    const email = data?.emailId;
+    if (!validator.isEmail(email)) throw new Error("Email is not valid");
+
+    const isAllowed = Object.keys(data).every((k) =>
+      ALLOWED_FIELDS.includes(k)
+    );
+
+    if (!isAllowed) throw new Error("Chosen fields cannot be updated");
+
+    await User.findByIdAndUpdate(userId, data);
     res.send("User updated successfully");
   } catch (error) {
-    res.status(400).send("Something went wrong updating user");
+    res
+      .status(400)
+      .send("Something went wrong updating user: " + error.message);
   }
 });
 
+// connecting to database
 connectDB()
   .then(() => {
     console.log("Database connected successfully...");
