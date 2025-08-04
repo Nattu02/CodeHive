@@ -82,3 +82,8 @@
 - 'default' values can be set to particular fields that are optional.
 - 'Timestamp: true' => Used to store the createdAt and updatedAt time for each document.
 - ..... Like these, there are a lot of functions, and can be used as per the requirements. 
+
+## Validator library
+- There is a library in npm called 'validator'
+- It has a lot of built in validations for email, password, urls, phone numbers, .... and a lot more. 
+- They can be used by installing the library by 'npm i validator' => const validator = require("validator)... thats it. 
