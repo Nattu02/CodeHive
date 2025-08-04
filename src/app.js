@@ -62,7 +62,7 @@ app.patch("/update", async (req, res) => {
 
   try {
     await User.updateOne(filtermail, newAge);
-    res.send("User age updated successfully");
+    res.send("User updated successfully");
   } catch (error) {
     res.status(400).send("Something went wrong updating user");
   }

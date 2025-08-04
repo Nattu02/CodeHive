@@ -74,3 +74,11 @@
 - There is a lot of mehtods inside models. To find all data, find by filters, update data based on filters, replace, delete, ..... etc. 
 - The conditions can be passed by request body, and can be used as filter. 
 
+## Validations in schema
+- There are lot of validation methods in schema, that can be used based on requirements.
+- For example, 'required: true' makes the field mandatory. 
+- 'unique: true' => makes the field unique, can be used for emails, that should not be duplicated.
+- 'minLength', 'maxLength', can be used to set minimum and maximum length for strings.
+- 'default' values can be set to particular fields that are optional.
+- 'Timestamp: true' => Used to store the createdAt and updatedAt time for each document.
+- ..... Like these, there are a lot of functions, and can be used as per the requirements. 
