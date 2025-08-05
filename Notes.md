@@ -114,3 +114,8 @@
 - It is crucial to check user authentication for every subsequent API calls made by any user. 
 - Instead of writing the aithenticating code in every API calls, it can be used as a middleware. 
 - The middleware can be called in each API calls where the authentication is necessary. 
+
+## Schema functions
+- Functions specific to users can be written inside schema , and called in required API calls. 
+- These includes JWT token generation, validating passowrds, etc. 
+- Using these helper functions make the code readable. 
