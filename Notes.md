@@ -87,3 +87,30 @@
 - There is a library in npm called 'validator'
 - It has a lot of built in validations for email, password, urls, phone numbers, .... and a lot more. 
 - They can be used by installing the library by 'npm i validator' => const validator = require("validator)... thats it. 
+
+
+# Ep - 9 Encrypting passowrds
+
+- The data sent from the request (req.body) should be validated appropriately before sending it to the database. 
+- A separate helper function (utils) can be created for validation to make code clean.
+- Passwords can be encrypted using bcrypt package. 
+- passwords encrypted using bcrypt can be compared using a function available in same bcrypt package. 
+- bcrypt.compare(plainPassword, hashStoredInDB) => returns true if password matches, else, returns false. 
+- It is best practice to not leak any information in error message like "user not found in DB", "email is not registered", .... etc. 
+- It is recommended to follow a common error message to be displayed to the user if anything goes wrong. 
+
+# JWT - Json Web Token 
+
+- Every time a user logs in, a token is sent along with the response. 
+- This respons is used to verify the user for subsequent API requests, like profile, update profile, connection requests,..... etc. 
+- The token is wrapped inside cookies and sent. 
+- To see the cookies, a npm package is used, 'cookie-parser'. This is used to parse the token in the cookie. 
+- There is a famous method to authenticate user, that is JWT. Instead of creating tokens manually, JWT can be used. 
+- JWT creates a unique token for user once logged in. The token consists of 3 parts. **Header.payload.Signature**. This uses specialized hashing algorithms like RMCA SHA 256 to hash the provided data into JWT token. 
+- This token can be varified using jwt.verify(.....) for any surther API calls. 
+
+## userAuth middleware
+
+- It is crucial to check user authentication for every subsequent API calls made by any user. 
+- Instead of writing the aithenticating code in every API calls, it can be used as a middleware. 
+- The middleware can be called in each API calls where the authentication is necessary. 
