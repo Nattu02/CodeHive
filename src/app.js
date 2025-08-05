@@ -46,16 +46,14 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const { emailId, password } = req.body;
-
     const user = await User.findOne({ emailId: emailId });
-
     if (!user) {
       throw new Error("Invalid credentials");
     }
-    const isValidPassword = await bcrypt.compare(password, user.password);
-
+    const isValidPassword = await user.validatePassword(password);
+    console.log(isValidPassword);
     if (isValidPassword) {
-      const jwtoken = jwt.sign({ _id: user._id }, "devTinder@2025");
+      const jwtoken = user.getJWT();
       res.cookie("token", jwtoken);
       res.send("Login successful!!!");
     } else throw new Error("Invalid crendentials");
