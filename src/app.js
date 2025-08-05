@@ -3,17 +3,38 @@ const app = express();
 
 const connectDB = require("./Config/database");
 const User = require("./models/user");
-
+const bcrypt = require("bcrypt");
 const validator = require("validator");
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+
+const { validateSignUp } = require("./utils/validate");
+const { userAuth } = require("./middlewares/auth");
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.post("/signup", async (req, res) => {
-  console.log(req.body);
-
-  const user = new User(req.body);
-
   try {
+    //validate the data
+    validateSignUp(req);
+
+    //encrypt the passowrd
+
+    //add user to DB
+    const { firstName, lastName, emailId, password, age, gender, skills } =
+      req.body;
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: passwordHash,
+      age,
+      gender,
+      skills,
+    });
     await user.save();
     console.log("user created successfully");
     res.send("User created successfully");
@@ -22,65 +43,36 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.get("/getuser", async (req, res) => {
-  const userEmail = req.body.emailId;
-
+app.post("/login", async (req, res) => {
   try {
-    const result = await User.findOne({ emailId: userEmail });
-    res.send(result);
-  } catch (err) {
-    res.status(400).send("Cannot find user");
-  }
-});
+    const { emailId, password } = req.body;
 
-app.get("/feed", async (req, res) => {
-  try {
-    const users = await User.find({});
-    if (users.length === 0) {
-      res.status(400).send("Cannot fetch users");
-    } else {
-      res.send(users);
+    const user = await User.findOne({ emailId: emailId });
+
+    if (!user) {
+      throw new Error("Invalid credentials");
     }
+    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    if (isValidPassword) {
+      const jwtoken = jwt.sign({ _id: user._id }, "devTinder@2025");
+      res.cookie("token", jwtoken);
+      res.send("Login successful!!!");
+    } else throw new Error("Invalid crendentials");
   } catch (err) {
     res.send("Something went wrong: " + err.message);
   }
 });
 
-app.put("/replace", async (req, res) => {
-  const filtermail = req.body[0];
-  // console.log(req.body);
-  const newUSer = req.body[1];
+app.get("/profile", userAuth, async (req, res) => {
   try {
-    await User.findOneAndReplace(filtermail, newUSer);
-    res.send("User replaced successfully");
-  } catch (error) {
-    req.send("Error replacing user");
-  }
-});
-
-app.patch("/update/:userId", async (req, res) => {
-  try {
-    const userId = req.params?.userId;
-    const data = req.body;
-
-    const ALLOWED_FIELDS = ["age", "skills", "gender", "profile", "emailId"];
-    if (data?.skills?.length > 5)
-      throw new Error("Skills cannot be more than 5");
-    const email = data?.emailId;
-    if (!validator.isEmail(email)) throw new Error("Email is not valid");
-
-    const isAllowed = Object.keys(data).every((k) =>
-      ALLOWED_FIELDS.includes(k)
-    );
-
-    if (!isAllowed) throw new Error("Chosen fields cannot be updated");
-
-    await User.findByIdAndUpdate(userId, data);
-    res.send("User updated successfully");
-  } catch (error) {
-    res
-      .status(400)
-      .send("Something went wrong updating user: " + error.message);
+    const user = req.user;
+    if (!user) {
+      throw new Error("User not found");
+    }
+    res.send(user);
+  } catch (err) {
+    res.status(400).send("Something went wrong : " + err);
   }
 });
 

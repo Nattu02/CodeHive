@@ -24,6 +24,14 @@ const userSchema = mongoose.Schema({
       if (!validator.isEmail(value)) throw new Error("Enter a valid email");
     },
   },
+  password: {
+    type: String,
+    required: true,
+    validate(value) {
+      if (!validator.isStrongPassword(value))
+        throw new Error("Enter a strong password");
+    },
+  },
   age: {
     type: Number,
     min: 18,
