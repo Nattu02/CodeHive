@@ -23,7 +23,6 @@ authRouter.post("/signup", async (req, res) => {
       skills,
     });
     await user.save();
-    console.log("user created successfully");
     res.send("User created successfully");
   } catch (err) {
     res.send("Error in creating new user: " + err.message);
@@ -38,7 +37,6 @@ authRouter.post("/login", async (req, res) => {
       throw new Error("Invalid credentials");
     }
     const isValidPassword = await user.validatePassword(password);
-    console.log(isValidPassword);
     if (isValidPassword) {
       const jwtoken = user.getJWT();
       res.cookie("token", jwtoken);

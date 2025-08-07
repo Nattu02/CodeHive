@@ -1,8 +1,6 @@
 const validateSignUp = (req) => {
   const { firstName, lastName, emailId, password } = req.body;
 
-  console.log(firstName, lastName, emailId, password);
-
   if (!firstName || !lastName) {
     throw new Error("Enter a valid name");
   } else if (firstName.length < 4 || firstName.length > 20) {
