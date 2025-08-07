@@ -119,3 +119,24 @@
 - Functions specific to users can be written inside schema , and called in required API calls. 
 - These includes JWT token generation, validating passowrds, etc. 
 - Using these helper functions make the code readable. 
+
+# Express Routers
+
+- Routers in express are used to group the code based on routes. 
+- By grouping the routes appropriately based on their actions, it will make the app.js file more clean and enhace the readability of code. 
+
+## Created logout, updateProfile, updatePAssword routes
+
+- Created separate routes for logout. 
+- For logout, we can simply make the token in the cookies as null, and expire it ASAP (Date.now()). 
+- This simply clear the cookies and make the user logout. 
+
+- For updateprofile, the user data is sent from the userAuth middleware. 
+- First, the data sent from the request should be sanitized and validated. 
+- Then it can be updated based on the user data sent from the userAuth middleware. 
+
+- For forget password, forst, the password has to be validated. 
+- Then all the process of storing the password has to be done from the start. 
+- Create a hash using JWT and store it in cookies, and sent the cookies in response. 
+
+
