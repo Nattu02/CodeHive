@@ -3,8 +3,6 @@ const User = require("../models/user");
 
 const userAuth = async (req, res, next) => {
   try {
-    // const decodedObj = req.cookies;
-    // const { token } = decodedObj;
     const { token } = req.cookies;
 
     if (!token) {
@@ -20,8 +18,8 @@ const userAuth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (Error) {
-    res.status(400).send("Error finding the user: "+ Error.message);
+    res.status(400).send("Error finding the user: " + Error.message);
   }
 };
 
-module.exports = { userAuth };
+module.exports = userAuth;
