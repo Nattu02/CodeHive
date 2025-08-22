@@ -91,7 +91,7 @@ requestRouter.post(
 
       connection.status = status;
       const updatedConnection = await connection.save();
-      
+
       res.json({
         message: "Connection request " + status + " successfully..",
         updatedConnection,

@@ -140,3 +140,13 @@
 - Create a hash using JWT and store it in cookies, and sent the cookies in response. 
 
 
+
+
+# User APIs
+
+## Viewing pending requests
+
+ - Relationship between two collections can be made using ref and populate. 
+ - By using ref, data from one collections can be accessed from other collection. 
+ - This is similar to using join in SQL databases. 
+ - 
