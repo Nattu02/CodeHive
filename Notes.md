@@ -149,4 +149,12 @@
  - Relationship between two collections can be made using ref and populate. 
  - By using ref, data from one collections can be accessed from other collection. 
  - This is similar to using join in SQL databases. 
- - 
+ 
+ 
+
+
+# Developing Frontend 
+
+ - CORS error will occurs if we trying to send API request from one domain to another domain. 
+ - This can be resolved by installing cors in the backend and configure it with origin and cerdentials. 
+ - Similarly in the frontend, everytime an API is called, it should be called {withCredentials: true}
