@@ -34,21 +34,21 @@ authRouter.post("/login", async (req, res) => {
     const { emailId, password } = req.body;
     const user = await User.findOne({ emailId: emailId });
     if (!user) {
-      throw new Error("Invalid credentials");
+      res.status(401).send("Invalid credentials");
     }
     const isValidPassword = await user.validatePassword(password);
     if (isValidPassword) {
       const jwtoken = user.getJWT();
       res.cookie("token", jwtoken);
       res.send(user);
-    } else throw new Error("Invalid crendentials");
+    } else res.status(401).send("Invalid credentials");
   } catch (err) {
     res.send("Something went wrong: " + err.message);
   }
 });
 
 authRouter.post("/logout", (req, res) => {
-  res.cookie("token", null, {
+  res.clearCookie("token", null, {
     expires: new Date(Date.now()),
   });
 

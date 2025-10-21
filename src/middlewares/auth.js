@@ -6,19 +6,19 @@ const userAuth = async (req, res, next) => {
     const { token } = req.cookies;
 
     if (!token) {
-      throw new Error("Invalid token!!!");
+      return res.status(401).json({ error: "Unauthorized: Token missing" });
     }
     const userId = jwt.verify(token, "devTinder@2025");
 
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
-      throw new Error("User not found...");
+      return res.status(401).json({ error: "Unauthorized: User not found" });
     }
     req.user = user;
     next();
   } catch (Error) {
-    res.status(400).send("Error finding the user: " + Error.message);
+    res.send("Error finding the user: " + Error.message);
   }
 };
 

@@ -158,3 +158,13 @@
  - CORS error will occurs if we trying to send API request from one domain to another domain. 
  - This can be resolved by installing cors in the backend and configure it with origin and cerdentials. 
  - Similarly in the frontend, everytime an API is called, it should be called {withCredentials: true}
+ - This credentials are sent with axios, so that the token is stored in the browser. 
+
+ - Install redux toolkit
+ - create user slice and store user details on login. 
+ - made the data in store is not deleted if refreshed. 
+ - This can be done by getting the information from database in the homepage and use it to check whether the user logged in or not. 
+ - Then set up routes for profile, home page, etc. 
+ - build logout feature
+ - create profile component. 
+ 

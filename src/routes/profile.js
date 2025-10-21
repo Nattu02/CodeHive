@@ -13,7 +13,7 @@ profileRouter.get("/profile/view", userAuth, async (req, res) => {
     }
     res.send(user);
   } catch (err) {
-    res.status(400).send("Something went wrong : " + err);
+    res.status(401).send("Unauthorized user");
   }
 });
 
