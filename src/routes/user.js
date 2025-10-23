@@ -82,11 +82,11 @@ userRouter.get("/feed", userAuth, async (req, res) => {
         { _id: { $ne: loggedInUser._id } },
       ],
     })
-      .select("firstName lastName")
+      .select("firstName lastName age gender profile")
       .skip(skip)
       .limit(limit);
 
-    res.send({ feed });
+    res.send(feed);
   } catch (err) {
     res.status(400).send({ message: err.message });
   }

@@ -40,7 +40,8 @@ authRouter.post("/login", async (req, res) => {
     if (isValidPassword) {
       const jwtoken = user.getJWT();
       res.cookie("token", jwtoken);
-      res.send(user);
+      const { firstName, lastName, gender, age, skills, profile } = user;
+      res.json({ firstName, lastName, gender, age, skills, profile });
     } else res.status(401).send("Invalid credentials");
   } catch (err) {
     res.send("Something went wrong: " + err.message);
