@@ -56,10 +56,10 @@ const userSchema = mongoose.Schema(
     },
     skills: {
       type: Array,
-      validate: {
-        validator: (arr) => arr.length >= 2,
-        message: "The number of skills should be greater than 2",
-      },
+      // validate: {
+      //   validator: (arr) => arr.length >= 2,
+      //   message: "The number of skills should be greater than 2",
+      // },
     },
   },
   {

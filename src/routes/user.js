@@ -12,10 +12,19 @@ userRouter.get("/user/request/pending", userAuth, async (req, res) => {
     const pendingRequests = await ConnectionRequest.find({
       toUserId: loggedInUser._id,
       status: "interested",
-    }).populate("fromUserId", ["firstName", "lastName"]);
+    }).populate("fromUserId", [
+      "firstName",
+      "lastName",
+      "profile",
+      "age",
+      "gender",
+    ]);
 
     if (pendingRequests.length === 0) {
-      return res.json({ message: "No pending connections at the moment" });
+      return res.json({
+        message: "No pending connection requests at the moment",
+        pendingRequests: pendingRequests || [],
+      });
     }
 
     res.json({
@@ -37,8 +46,8 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
         { toUserId: loggedInUser._id, status: "accepted" },
       ],
     })
-      .populate("fromUserId", "firstName lastName")
-      .populate("toUserId", "firstName lastName");
+      .populate("fromUserId", "firstName lastName profile")
+      .populate("toUserId", "firstName lastName profile");
 
     const data = (await connections).map((connection) => {
       if (connection.fromUserId._id.equals(loggedInUser._id))
@@ -47,10 +56,7 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
       return connection.fromUserId;
     });
 
-    res.send({
-      message: "Friendddssss!!!!",
-      data,
-    });
+    res.send(data);
   } catch (err) {
     res.status(400).send({ message: "Something went wrong" });
   }

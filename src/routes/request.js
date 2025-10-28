@@ -32,7 +32,6 @@ requestRouter.post(
       }
 
       if (fromUserId.equals(toUserId)) {
-        console.log("asdfasdfasfd");
         return res
           .status(400)
           .json({ message: "You cannot send request to yourself!!" });

@@ -9,8 +9,7 @@ authRouter.post("/signup", async (req, res) => {
   try {
     validateSignUp(req);
 
-    const { firstName, lastName, emailId, password, age, gender, skills } =
-      req.body;
+    const { firstName, lastName, emailId, password } = req.body;
     const passwordHash = await bcrypt.hash(password, 10);
 
     const user = new User({
@@ -18,12 +17,9 @@ authRouter.post("/signup", async (req, res) => {
       lastName,
       emailId,
       password: passwordHash,
-      age,
-      gender,
-      skills,
     });
-    await user.save();
-    res.send("User created successfully");
+    const newUSer = await user.save();
+    res.json({ message: "User created successfully", data: user });
   } catch (err) {
     res.send("Error in creating new user: " + err.message);
   }
