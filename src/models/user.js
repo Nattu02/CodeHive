@@ -43,7 +43,7 @@ const userSchema = mongoose.Schema(
       type: String,
       validate: {
         validator: function (value) {
-          return ["male", "female", "others"].includes(value);
+          return ["Male", "Female", "Others"].includes(value);
           // return value === "male"
         },
         message: (props) => `${props.value} is not a valid gender`,
@@ -56,10 +56,16 @@ const userSchema = mongoose.Schema(
     },
     skills: {
       type: Array,
-      // validate: {
-      //   validator: (arr) => arr.length >= 2,
-      //   message: "The number of skills should be greater than 2",
-      // },
+      default: ["code", "sleep", "repeat"],
+    },
+    about: {
+      type: String,
+      trim: true,
+      default: "Description not updated",
+    },
+    role: {
+      type: String,
+      trim: true,
     },
   },
   {

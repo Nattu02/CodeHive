@@ -11,8 +11,18 @@ profileRouter.get("/profile/view", userAuth, async (req, res) => {
     if (!user) {
       throw new Error("User not found");
     }
-    const { firstName, lastName, gender, age, skills, profile } = user;
-    res.json({ firstName, lastName, gender, age, skills, profile });
+    const { firstName, lastName, gender, age, skills, profile, role, about } =
+      user;
+    res.json({
+      firstName,
+      lastName,
+      gender,
+      age,
+      skills,
+      profile,
+      role,
+      about,
+    });
   } catch (err) {
     res.status(401).send("Unauthorized user");
   }
@@ -24,9 +34,10 @@ profileRouter.patch("/profile/update", userAuth, async (req, res) => {
       "firstName",
       "lastName",
       "gender",
-      "age",
       "skills",
       "profile",
+      "role",
+      "about",
     ];
     const newUserData = req.body;
     const isAllowed = Object.keys(newUserData).every((key) =>
@@ -38,12 +49,11 @@ profileRouter.patch("/profile/update", userAuth, async (req, res) => {
     const updatedUserData = Object.assign(loggedInUser, newUserData);
 
     await updatedUserData.save();
-    const { firstName, lastName, gender, age, skills, profile } =
+    const { firstName, lastName, gender, age, skills, profile, role, about } =
       updatedUserData;
-
     res.json({
       message: "Profile updated successfully...",
-      data: { firstName, lastName, gender, age, skills, profile },
+      data: { firstName, lastName, gender, age, skills, profile, role, about },
     });
   } catch (err) {
     res.status(400).send("Error updating user: " + err.message);

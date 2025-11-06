@@ -46,8 +46,8 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
         { toUserId: loggedInUser._id, status: "accepted" },
       ],
     })
-      .populate("fromUserId", "firstName lastName profile")
-      .populate("toUserId", "firstName lastName profile");
+      .populate("fromUserId", "firstName lastName profile role about")
+      .populate("toUserId", "firstName lastName profile role about");
 
     const data = (await connections).map((connection) => {
       if (connection.fromUserId._id.equals(loggedInUser._id))
