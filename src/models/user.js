@@ -61,7 +61,6 @@ const userSchema = mongoose.Schema(
     about: {
       type: String,
       trim: true,
-      default: "Description not updated",
     },
     role: {
       type: String,
