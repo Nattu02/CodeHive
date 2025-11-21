@@ -9,9 +9,7 @@ const connectDB = async () => {
   await mongoose.connect(
     "mongodb+srv://" +
       username +
-      ":" +
-      password +
-      "@practice.plnh4xg.mongodb.net/devTinder?retryWrites=true&w=majority&appName=practice"
+      ":MONGO_PASSWORD=NMc9hrSxcrVxJP2c@practice.plnh4xg.mongodb.net/devTinder?retryWrites=true&w=majority&appName=practice"
   );
 };
 
