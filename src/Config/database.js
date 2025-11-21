@@ -7,9 +7,7 @@ const password = process.env.MONGO_PASSWORD;
 
 const connectDB = async () => {
   await mongoose.connect(
-    "mongodb+srv://" +
-      username +
-      ":MONGO_PASSWORD=NMc9hrSxcrVxJP2c@practice.plnh4xg.mongodb.net/devTinder?retryWrites=true&w=majority&appName=practice"
+    "mongodb+srv://nattudurai:NMc9hrSxcrVxJP2c@practice.plnh4xg.mongodb.net/devTinder?retryWrites=true&w=majority&appName=practice"
   );
 };
 
