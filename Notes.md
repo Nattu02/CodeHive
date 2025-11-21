@@ -168,3 +168,58 @@
  - build logout feature
  - create profile component. 
  
+ # Deploying frontend in the AWS EC2 instance
+
+ - Upload the updated code to github
+ - Clone the code from the github repo to the aws server
+ - npm install
+ - build the project using the command "npm run build"
+ - sudo apt update
+ - sudo apt install nginx
+ - sudo systemcrl start nginx
+ - sudo systemcrl enable nginx
+ - The code from the dist folder should be copied to nginx using the following command: 
+ - sudo scp -r /dist/* /var/www/html/
+ - Enable port :80 in the aws instance in security grroups. 
+ - 
+
+
+
+ # Deploying the backend code to AWS EC2 isntance
+
+ - Upload the code to github. 
+ - Clone the repo from git to the ubuntu server in the aws instance. 
+ - npm start wont work there as the server wont work once the terminal is closed. 
+ - To prevent this, pm2 need to be installed. 
+
+ - npm install pm2 -g
+ - start pm2 and start the server using the command "pm2 start npm --name <servername> -- start" - This will start the backend server and keep it running 24/7
+ - Some other pm2 commands are as follows: 
+ - - pm2 stop <name>
+ - - pm2 restart <name>
+ - - pm2 delete <name>
+ - - pm2 log => to see the console log of the backend server that is running. 
+ 
+ - Once the backend server is running, it has to be mapped to the port. 
+ - nginx proxy pass. pass localhost/api/ to localhost:7777
+
+ - sudo nano /etc/nginx/sites-available/default
+
+ Configure the file as follows: 
+
+^^^
+servername : <IP address>
+ location /api/ {
+        proxy_pass http://localhost:7777/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+^^^
+
+- Then restart the nginx server. 
+- Now the ip request for "localhost/api/feed" is the same as "localhost:7777/feed"
+
+- Modify the base url in the frontend to "/api/"

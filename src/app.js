@@ -5,14 +5,13 @@ const mongoose = require("mongoose");
 const connectDB = require("./Config/database");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-require("dotenv").config(); 
+require("dotenv").config();
 
 const { upload } = require("./Config/cloudinary");
 
-
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://13.233.102.100", "http://localhost:5173"],
     credentials: true,
   })
 );
